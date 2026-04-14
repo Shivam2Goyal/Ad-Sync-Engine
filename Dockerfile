@@ -1,6 +1,6 @@
 # Use the official Microsoft Playwright image as the base
 # This image already contains all OS-level dependencies for running headless browsers
-FROM mcr.microsoft.com/playwright:v1.40.0-jammy
+FROM mcr.microsoft.com/playwright:v1.59.1-jammy
 
 # Set the working directory
 WORKDIR /app

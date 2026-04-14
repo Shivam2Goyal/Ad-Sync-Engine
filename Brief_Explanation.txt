@@ -1,0 +1,45 @@
+Ad Sync Engine — Brief Explanation
+
+--- How the System Works (Flow) ---
+
+The Ad Sync Engine takes an ad creative (image or URL) and a target landing page URL, generating a fully personalized version of the page that seamlessly matches the ad in both text and visual style. The page is not rebuilt; we use CRO (Conversion Rate Optimization) strategies to enhance the existing structure.
+
+The 5-Step Pipeline:
+1. Scrape: Playwright navigates to the target URL, waiting for network resources to load, and extracts the full raw HTML document safely (keeping inline and linked CSS intact).
+2. Vision Extraction (Colors & Motif): The provided Ad Image or URL is fed into a Vision Model. It extracts the raw DNA of the ad — primary, secondary, text, and accent hex colors, visual style, mood, and headline intent.
+3. Element Extraction: We safely extract maximum ~20 key text nodes (H1s, CTAs, tags, subheadings) and a list of existing CSS color codes/classes used in the raw HTML.
+4. CRO Text Personalization: An LLM rewrites 5-8 of the most impactful text elements using the context derived from Step 2. It ensures the verbiage precisely adapts to the ad's audience and tone.
+5. Stylistic Override: Based on the extracted colors and CSS classes, an LLM outputs raw CSS block overrides targeting headers, buttons, cards, and backgrounds to make the site look visually unified with the ad.
+6. Final Assembly: Original HTML is modified using strict string replacements for text, and an <style> override block is cleanly injected. A <base> tag is injected so broken relative images/fonts continue to render.
+
+--- Key Components & Agent Design ---
+
+1. Frontend Component (React + Vite):
+- Input Panel: Drag-and-drop file support for creatives + terminal-style progress logs. 
+- Output Panel: Manages a secure sandbox test preview (via iframe) and provides a raw diff of text substitutions and CSS generations.
+
+2. Playwright Scraper: Extracts existing page state reliably regardless of dynamic SPA loading patterns.
+
+3. AI Agent Architecture (Groq API Free Tier):
+- The Vision Analyzer Agent [meta-llama/llama-4-scout-17b-16e-instruct]: Purpose-built for identifying specific color palettes and determining tone boundaries heavily via image matrices. Strict json schema generation.
+- The CRO Copywriter Agent [llama-3.3-70b-versatile]: Instructed entirely on character limits and strict JSON outputs for text replacement.
+- The Style Designer Agent [llama-3.3-70b-versatile]: Specifically prompted to output raw cascading style sheets (CSS) with !important flags targeting broad HTML nodes + the site's scraped class names to override core visual themes.
+
+--- How We Handle Challenges ---
+
+1. Random Changes:
+- Deterministic Extraction: We enforce randomness control primarily via LLM temperature. Vision runs at temperature 0.15; Text & Style models run at 0.20 to 0.25. 
+- The HTML DOM is never dynamically rebuilt. Only specific text phrases are modified via highly structured string replacement.
+
+2. Broken UI:
+- Safe Sandboxing: Generated pages are served within a secure iframe preview that prevents foreign Javascript execution from compromising the main React UI.
+- CSS Cascading Principles: Rather than destructively wiping the existing page style libraries or rewriting DOM classes, all generated visual changes are injected as an override <style> rule block via CSS specificity (!important).
+- <base> Tag Resolution: Relative path assets (missing images or fonts when downloaded to local output) are explicitly resolved by prepending a target base tag pointing back to the core URL limit.
+
+3. Hallucinations:
+- Non-destructive DOM Swaps: The LLM explicitly outputs "before" and "after" variables for text. If the LLM hallucinates text that does not physically exist in the original scraped HTML, our exact-match system simply fails to trigger a replace routine, leaving the healthy, unchanged HTML intact instead of corrupting the layout.
+- Guardrails against Markdown: Models casually wrap things in ```json tags or markdown fences. An robust fallback regex parser safely attempts to strip and deserialize raw object maps even if conversational context hallucinates outside constraints.
+
+4. Inconsistent Outputs:
+- Multi-Agent Shared Context: Both the Copywriter AI and Stylist AI are fed the EXACT same JSON object describing the ad (produced by the Vision AI). They work separately but rely on an identical underlying "truth" matrix so the text tone naturally aligns with the color mood.
+- Strict Constraints: System prompts strictly limit outputs to 1500–2000 maximum tokens to stop recursive CSS hallucination rambling. Output text boundaries are explicitly prompted: "Keep new text similar in length to original (±20% words)".

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ShopEase — Premium Fashion</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', sans-serif; color: #1a1a1a; }
+
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 60px; background: #fff; border-bottom: 1px solid #eee;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-size: 24px; font-weight: 800; color: #1a1a1a; letter-spacing: -1px; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { text-decoration: none; color: #555; font-size: 14px; }
+    .nav-cta {
+      background: #1a1a1a; color: #fff; padding: 10px 24px;
+      border: none; cursor: pointer; font-size: 14px; font-weight: 600;
+    }
+
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 90vh; align-items: center;
+    }
+    .hero-content { padding: 80px 60px; }
+    .hero-badge {
+      display: inline-block; background: #f0f0f0;
+      padding: 6px 14px; font-size: 12px; font-weight: 600;
+      letter-spacing: 2px; color: #555; margin-bottom: 24px;
+    }
+    .hero-title {
+      font-size: 56px; font-weight: 800; line-height: 1.1;
+      letter-spacing: -2px; margin-bottom: 20px;
+    }
+    .hero-title span { color: #e63946; }
+    .hero-subtitle {
+      font-size: 18px; color: #666; line-height: 1.7;
+      margin-bottom: 36px; max-width: 440px;
+    }
+    .hero-buttons { display: flex; gap: 16px; align-items: center; }
+    .btn-primary {
+      background: #1a1a1a; color: #fff; padding: 16px 36px;
+      border: none; cursor: pointer; font-size: 15px; font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .btn-secondary {
+      background: transparent; color: #1a1a1a; padding: 16px 36px;
+      border: 2px solid #1a1a1a; cursor: pointer; font-size: 15px; font-weight: 700;
+    }
+    .hero-image {
+      background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+      height: 100%; min-height: 90vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-image-placeholder {
+      font-size: 120px; opacity: 0.3;
+    }
+    .hero-tag {
+      position: absolute; bottom: 40px; left: 40px;
+      background: #fff; padding: 16px 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+    .hero-tag-title { font-size: 13px; font-weight: 700; }
+    .hero-tag-sub { font-size: 12px; color: #999; margin-top: 2px; }
+
+    .stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      padding: 60px; background: #1a1a1a; color: #fff; gap: 40px;
+    }
+    .stat-number { font-size: 48px; font-weight: 800; color: #e63946; }
+    .stat-label { font-size: 14px; color: #aaa; margin-top: 4px; }
+
+    .features { padding: 100px 60px; background: #fafafa; }
+    .section-label {
+      font-size: 12px; font-weight: 700; letter-spacing: 3px;
+      color: #999; margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 40px; font-weight: 800; margin-bottom: 60px;
+      letter-spacing: -1px; max-width: 500px;
+    }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+    .feature-card { background: #fff; padding: 36px; border: 1px solid #eee; }
+    .feature-icon { font-size: 36px; margin-bottom: 20px; }
+    .feature-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .feature-desc { font-size: 14px; color: #666; line-height: 1.7; }
+
+    .cta-banner {
+      padding: 100px 60px; background: #e63946; color: #fff;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cta-banner-title { font-size: 40px; font-weight: 800; max-width: 500px; line-height: 1.2; }
+    .btn-white {
+      background: #fff; color: #e63946; padding: 18px 44px;
+      border: none; cursor: pointer; font-size: 16px; font-weight: 800;
+      white-space: nowrap;
+    }
+
+    footer {
+      padding: 40px 60px; background: #111; color: #555;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-logo { font-size: 20px; font-weight: 800; color: #fff; }
+    .footer-text { font-size: 13px; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">ShopEase</div>
+    <ul class="nav-links">
+      <li><a href="#">Men</a></li>
+      <li><a href="#">Women</a></li>
+      <li><a href="#">Collections</a></li>
+      <li><a href="#">Sale</a></li>
+    </ul>
+    <button class="nav-cta">Shop Now</button>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">NEW COLLECTION 2025</div>
+      <h1 class="hero-title">
+        Dress for the <span>Life You Want</span>
+      </h1>
+      <p class="hero-subtitle">
+        Discover timeless fashion that blends comfort with elegance.
+        From casual wear to formal attire — find your perfect style.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn-primary">Shop the Collection</button>
+        <button class="btn-secondary">View Lookbook</button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="hero-image-placeholder">👔</div>
+      <div class="hero-tag">
+        <div class="hero-tag-title">Summer 2025 Edit</div>
+        <div class="hero-tag-sub">500+ new arrivals</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div>
+      <div class="stat-number">2M+</div>
+      <div class="stat-label">Happy Customers Worldwide</div>
+    </div>
+    <div>
+      <div class="stat-number">500+</div>
+      <div class="stat-label">New Styles Every Season</div>
+    </div>
+    <div>
+      <div class="stat-number">4.9★</div>
+      <div class="stat-label">Average Customer Rating</div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="section-label">WHY SHOPEASE</div>
+    <h2 class="section-title">Fashion That Works as Hard as You Do</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <div class="feature-title">Free Express Delivery</div>
+        <div class="feature-desc">Get your order delivered within 24 hours. Free shipping on all orders above ₹999.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">↩️</div>
+        <div class="feature-title">30-Day Easy Returns</div>
+        <div class="feature-desc">Not happy? Return anything within 30 days, no questions asked. Full refund guaranteed.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✨</div>
+        <div class="feature-title">Premium Quality</div>
+        <div class="feature-desc">Every piece is crafted from carefully sourced fabrics that look great and last longer.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <h2 class="cta-banner-title">Ready to Upgrade Your Wardrobe?</h2>
+    <button class="btn-white">Start Shopping Today</button>
+  </section>
+
+  <footer>
+    <div class="footer-logo">ShopEase</div>
+    <div class="footer-text">© 2025 ShopEase. All rights reserved.</div>
+  </footer>
+
+</body>
+</html>
